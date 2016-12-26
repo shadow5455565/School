@@ -1,5 +1,6 @@
 import socket
 import threading
+import time
 
 class ThreadedServer(object):
     def __init__(self, host, port):
@@ -12,11 +13,11 @@ class ThreadedServer(object):
     def listen(self):
         clients_lock=threading.Lock()
         clients = set()
-        print("Listening on socket...")
+        print("["+time.ctime(time.time())+"]Listening on socket...")
         self.sock.listen(5)
         while True:
             client, address = self.sock.accept()
-            print("Got a connection from %s" % str(address))
+            print("["+time.ctime(time.time())+"]Got a connection from %s" % str(address))
             with clients_lock:
                 clients.add(client)
             threading.Thread(target = self.listenToClient,args = (client,address,clients,clients_lock)).start()
@@ -26,17 +27,19 @@ class ThreadedServer(object):
         while True:
             try:
                 data = client.recv(size)
-                print("Recived client data from %s" + str(address))
+                print("["+time.ctime(time.time())+"]Recived client data from %s" + str(address))
                 if data:
                     with clients_lock:
                         for c in clients:
                             c.sendall(data)
                 else:
-                    raise error('Client disconnected')
+                    raise error("["+time.ctime(time.time())+']Client disconnected')
             except:
                 client.close()
                 return False
 
 if __name__ == "__main__":
-    port_num = input("Port? ")
+    port_num = input("["+time.ctime(time.time())+"]insert Port: ")
     ThreadedServer('0.0.0.0',int(port_num)).listen()
+
+
