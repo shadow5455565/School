@@ -1,5 +1,5 @@
 import socket
-passw=6547
+passw="6547"
 
 def reorderer(text,psw):
         if len(psw) < 4:
@@ -32,7 +32,7 @@ try:
                 text=input("Inserisci il messaggio:")
                 texte=reorderer(text, passw)
                 mex= "[" + usr + "]" + texte 
-                s.send(mex.encode('ascii'))
+                s.send(mex.encode('utf-8'))
 
         input("Press enter to close...")
         s.close()
