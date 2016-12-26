@@ -21,7 +21,11 @@ int main()
 	{
 		var=getch();
 		count++;
-		if(var=='s')
+		if(var == 'q')
+		{
+			break;
+		}
+		else if(var=='s')
 		{
 			pos_x++;
 		}
@@ -76,5 +80,10 @@ int main()
 			count_last=count;
 		}
 	}
+	cout << endl << endl << endl;
+	cout << "############################################################################################" << endl;
+	cout << "Press Enter to close...";
+	getchar();
+	getchar();
 	return 0;
 }
