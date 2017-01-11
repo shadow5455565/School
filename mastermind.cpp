@@ -20,9 +20,9 @@ int main(int argc, char* argv[])
 		}
 	}
 	printf("FATTO!");
-	if (argc>=2)
+	if (argc>=1)
 	{
-		if (atoi(argv[2])==1)
+		if (atoi(argv[1])==1)
 		{
 			printf("\nDEBUG: numeri casuali creati:");
 			for (int i=0; i < 4; i++)
