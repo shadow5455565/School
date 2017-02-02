@@ -2,12 +2,14 @@
 #include <stdlib.h>
 #include <time.h>
 #include <conio.h>
+
+
 #include <windows.h>
 
 int main(int argc, char* argv[])
 {
 	printf("Gioco di \"Mastermind\" \n\n\n");
-	int gamenums[5], usernums[4], tentativi = 10, wrongpos, goodpos, gamefinish_count = 0, num_err = 0;
+	int gamenums[5], usernums[4], tentativicacchetta = 10, wrongpos, goodpos, gamefinish_count = 0, num_err = 0;
 	srand(time(NULL));
 	printf("\nSto generando 4 numeri casuali...");
 	for (int i = 1; i < 5; i++)
@@ -21,7 +23,7 @@ int main(int argc, char* argv[])
 			}
 		}
 	}
-	printf("FATTO!");
+	printf("FATTo!");
 	if (argc >= 1)
 	{
 		if (atoi(argv[1]) == 1)
@@ -51,11 +53,7 @@ int main(int argc, char* argv[])
 					if (usernums[a] == usernums[i])
 					{
 						num_err = 1;
-						printf("\nErrore: il numero e' gia stato inserito, inserirne uno diverso\n");
 						i--;
-						printf("Inserire i numeri: ");
-						for (int f = 0; f <= i; f++)
-							printf("%d", usernums[f]);
 					}
 				}
 				if (num_err == 0)
