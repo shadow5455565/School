@@ -1,0 +1,6 @@
+﻿  gamerule.cpp
+d:\visual studio projects\mastermindrem\mastermindrem\gamerule.cpp(13): warning C4477: 'printf': con la stringa di formato '%s' è necessario un argomento di tipo 'char *', ma il tipo dell'argomento variadic 1 è 'int *'
+d:\visual studio projects\mastermindrem\mastermindrem\gamerule.cpp(89): warning C4244: 'argomento': conversione da 'time_t' a 'int'. Possibile perdita di dati.
+d:\visual studio projects\mastermindrem\mastermindrem\gamerule.cpp(47): warning C4715: 'gamerule::isgamefinished': non tutti i percorsi di controllo restituiscono un valore
+d:\visual studio projects\mastermindrem\mastermindrem\gamerule.cpp(64): warning C4715: 'gamerule::debugcheck': non tutti i percorsi di controllo restituiscono un valore
+  mastermindrem.vcxproj -> D:\Visual Studio Projects\mastermindrem\x64\Debug\mastermindrem.exe
