@@ -19,9 +19,10 @@
 #define AVV_006 "AVVERTENZA (Id 5): Sto generando 4 numeri casuali"
 #define AVV_007 "AVVERTENZA (Id 6): L'utente ora puo' inserire i numeri"
 #define AVV_008 "AVVERTENZA (Id 7): Sto inizializzando il programma"
-#define AVV_009 "AVVERTENZA (Id 8): Complimenti hai vinto, premere invio per uscire"
+#define AVV_009 "AVVERTENZA (Id 8): Complimenti hai vinto, premere un qualsiasi tasto  per uscire"
 #define AVV_010 "AVVERTENZA (Id 9): Mi dispiace ma hai perso, premere invio per vedere la sequenza corretta"
 #define AVV_011 "AVVERTENZA (Id 10): La sequenza corretta e': "
+#define AVV_012 "AVVERTENZA (Id 11): GAME OVER!!!"
 /*FINE AVVERTENZE*/
 
 /*TUTTI GLI ERRORI VERRANNO SCRITTI QUI
@@ -43,16 +44,19 @@
 *** DATA ultima modifica : 03/02/2017 da CRYogen***
 --> Ogni valore di default e' pubblico quindi utilizzabile in ogni parte del programma che include questa libreria<--
 */
-#define DEBUG_ISDEBUG_ON 1
-#define DEBUG_ISDEBUG_OFF 0
+#define DEBUG_ISDEBUG_ON 3
+#define DEBUG_ISDEBUG_OFF 4
 #define MAX_TENTATIVI 10
 #define HOWEND_WIN 1
-#define HOWEND_LOSE 0
+#define HOWEND_LOSE 2
+#define CONTINUE_GAME 0x00000011
+#define END_GAME 0x00000010
+#define WAIT_PRESS_KEY 0x00000020
 /*FINE VALORI DI DEFAULT*/
 
 class gamerule
 {
-public:
+private:
 	int tentativi = MAX_TENTATIVI;
 	int right_pos;
 	int wrong_pos;
@@ -61,7 +65,10 @@ public:
 	int* instream; //user nums
 	int* rand_nums;
 	int isdebug;
-	int updscreen();
+	int gamestate;
+public:
+	void clearcluevars();
+	int updscreen(int out_mode);
 	int seterrormex(const char* str);
 	int isgamefinished(int HOWEND);
 	int debugcheck(int init);
@@ -72,6 +79,8 @@ public:
 	int setdefaulttent(int tent);
 	int setrandnums(int randseed);
 	int setusernums();
+	int checkusernums();
+	void runtime();
 	gamerule();
 	~gamerule();
 };

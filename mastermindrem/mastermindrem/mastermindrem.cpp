@@ -14,9 +14,8 @@ int main(int argc, char* argv[])
 		gamerules.setdebugmode(DEBUG_ISDEBUG_ON);
 	}
 	gamerules.debugcheck(1);
-	gamerules.setusernums();
+	gamerules.runtime();
 	printf("\n\n");
-	system("PAUSE");
     return 0;
 }
 
