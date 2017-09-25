@@ -2,16 +2,29 @@
 #include "gamerule.h"
 
 int gamerule::checkusernums() {
-	for (int x = 0; x < 4; x++) {
-		for (int i = 0; i < 4; i++) {
-			if (instream[x] == rand_nums[i] && i==x) {
-				right_pos++;
-			}
-			else if (instream[x] == rand_nums[i] && i!=x) {
-				wrong_pos++;
-			}
+	/*
+	ALGORITHM ID 01
+	AUTH: CRY0g3n aka Shadow5455565 Aka Raul Radu
+	USAGE: Check if numbers are in the same position in arrays, and check who are not
+	VERSION: 1.0.1
+	*/
+
+	for (int i = 0; i < 4; i = i + 1) {
+		if (rand_nums[i+1] == instream[i]) {
+			ulocks[i] = instream[i];
+			rlocks[i] = rand_nums[i+1];
+			right_pos = right_pos + 1;
 		}
 	}
+	for (int i = 0; i < 4; i = i + 1) {
+		for (int x = 0; x < 4; x = x + 1) {
+			if (rand_nums[x+1] == instream[i] && instream[i] != ulocks[i] && i != x && rand_nums[x+1] != rlocks[x] && instream[i] != uwlocks[i]) {
+					rlocks[x] = rand_nums[x+1];
+					uwlocks[i] = instream[i];
+					wrong_pos = wrong_pos + 1;
+				}
+			}
+		}
 	tentativi--;
 	if (right_pos == 4) return END_GAME;
 	else return CONTINUE_GAME;
@@ -19,7 +32,6 @@ int gamerule::checkusernums() {
 
 void gamerule::runtime() {
 	//game_state;
-	setdefaultvariables();
 	do {
 		setusernums();
 		gamestate = checkusernums();
@@ -34,6 +46,39 @@ void gamerule::runtime() {
 	}
 }
 
+int gamerule::menu()
+{
+	system("cls");
+	printf("+----------------------------------------------+\n");
+	printf("| 1234-5678-9098-7654-3212-3456-7890-9876-5432 |\n");
+	printf("|---->          Mastermind  v1.5          <----|\n");
+	printf("| 2345-6789-0987-6543-2123-4567-8909-8765-4321 |\n");
+	printf("+----------------------------------------------+\n\n\n\n");
+	
+	int difficulty;
+	printf("[*]Livelli di difficolta': \n[0]\tFacile : 50 Tentativi\n[1]\tMedio : 25 Tentativi\n[2]\tDifficile: 12 Tentativi\n[99]\tEsci\n\n\n");
+	printf("[#]Inserisci il livello di difficolta'(0/1/2):");
+	scanf_s("%d", &difficulty);
+	switch (difficulty)
+	{
+		case 0:
+			setdefaulttent(EASY_TENTATIVI);
+			break;
+		case 1:
+			setdefaulttent(MEDIUM_TENTATIVI);
+			break;
+		case 2:
+			setdefaulttent(HARD_TENTATIVI);
+			break;
+		case 99:
+			return -200;
+		default:
+			menu();
+			break;
+	}
+	return 1;
+}
+
 int gamerule::updscreen(int out_mode)
 {
 	system("cls");
@@ -41,11 +86,23 @@ int gamerule::updscreen(int out_mode)
 	printerr();
 	if (debugcheck(0) == 1)
 	{
-		printf("DEBUG: la sequenza generata e': %s\n",rand_nums);
+		printf("DEBUG: la sequenza generata e': ");
+		for (int i = 1; i < 5; i++) {
+			printf("%d", rand_nums[i]);
+		}
+		printf("\n");
 	}
 	printf("NUMERI NELLA POSIZIONE CORRETTA: %d\n", right_pos);
 	printf("NUMERI NELLA POSIZIONE SBAGLIATA: %d\n", wrong_pos);
-	//printf("ULTIMA SEQUENZA: %s", iostream_history);
+	printf("ULTIME 3 SEQUENZE: ");
+	for (int i = 0; i < 3; i++) {
+		printf("%d.", i + 1);
+		for (int x = 4 * i; x < 4 * (i + 1); x++) {
+			printf("%d", histr[x]);
+		}
+		if (i !=2) printf(" ,");
+		else printf("\n");
+	}
 	printf("NUMERO DI TENTATIVI RIMASTI: %d\n", tentativi);
 	switch (out_mode)
 	{
@@ -109,11 +166,15 @@ int gamerule::debugcheck(int init)
 	{
 		seterrormex(AVV_004);
 	}
-	else
+	else if (isdebug == DEBUG_ISDEBUG_ON && init!=1)
 	{
+		return 1;
+	}
+	else {
 		return -1;
 	}
 	updscreen(NULL);
+	return -1;
 }
 
 int gamerule::setdebugmode(int isdebugset)
@@ -138,7 +199,6 @@ void gamerule::printerr()
 int gamerule::setdefaultvariables()
 {
 	setdebugmode(DEBUG_ISDEBUG_OFF);
-	setdefaulttent(MAX_TENTATIVI);
 	setrandnums( (time(NULL)) );
 	return 0;
 }
@@ -158,42 +218,18 @@ int gamerule::setrandnums(int randseed)
 	for (int i = 1; i < 5; i++)
 	{
 		rand_nums[i] = rand() % 10;
-		for (int a = 1; a<i; a++)
-		{
-			if (rand_nums[a] == rand_nums[i] || rand_nums[i]<0 || rand_nums[i]>9)
-			{
-				i--;
-			}
-		}
 	}
 	return 0;
 }
 
 int gamerule::setusernums()
 {
-	int num_err = 0;
 	for (int i = 0; i<5; i++)
 	{
 		instream[i] = _getch() - '0';
-		if (instream[i] >= 0 && instream[i] <= 9 && i <= 3)
+		if (instream[i] >= 0 && instream[i] <= 9 && i <= 3 )
 		{
-			for (int a = 0; a<i; a++)
-			{
-				if (instream[a] == instream[i])
-				{
-					num_err = 1;
-					seterrormex(ERR_001);
-					updscreen(NULL);
-					i--;
-					for (int f = 0; f <= i; f++)
-						printf("%d", instream[f]);
-				}
-			}
-			if (num_err == 0)
-			{
 				printf("%d", instream[i]);
-			}
-			num_err = 0;
 		}
 		else
 		{
@@ -205,13 +241,30 @@ int gamerule::setusernums()
 				i=i-2;
 			}
 			else if (instream[i] == (13 - '0') && i == 4) { 
+				updHistory();
 				return 1;
-			} //TEST
+			}
 			else if(i<4){ i--; seterrormex(ERR_002); updscreen(NULL);}
 			else i--;
 		}
 	}
 	return 0;
+}
+
+void gamerule::updHistory()
+{
+	//Moving values from 4,5,6,7 to 8,9,10,11
+	for (int i = 4; i < 8; i++) {
+		histr[i + 4] = histr[i];
+	}
+	//Moving Values from 0,1,2,3 to 4,5,6,7
+	for (int i = 0; i < 4; i++) {
+		histr[i + 4] = histr[i];
+	}
+	//Moving Values from instream to 0,1,2,3
+	for (int i = 0; i < 4; i++) {
+		histr[i] = instream[i];
+	}
 }
 
 void gamerule::clearcluevars() { //Pulisce, quindi azzera le variabili right_pos e wrong_pos;
@@ -221,7 +274,9 @@ void gamerule::clearcluevars() { //Pulisce, quindi azzera le variabili right_pos
 gamerule::gamerule()
 {
 	instream = (int *)malloc((4 * sizeof(int)));
-	//instream_history = (int *)malloc(sizeof(instream)*4);
+	for (int i = 0; i < 12; i++) {
+		histr[i] = 0;
+	}
 	rand_nums = (int *)malloc((5 * sizeof(int)));
 }
 

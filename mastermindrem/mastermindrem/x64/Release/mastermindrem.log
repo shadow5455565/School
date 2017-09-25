@@ -1,10 +1,8 @@
 ﻿  gamerule.cpp
-gamerule.cpp(44): warning C4477: 'printf': con la stringa di formato '%s' è necessario un argomento di tipo 'char *', ma il tipo dell'argomento variadic 1 è 'int *'
-gamerule.cpp(142): warning C4244: 'argomento': conversione da 'time_t' a 'int'. Possibile perdita di dati.
+gamerule.cpp(202): warning C4244: 'argomento': conversione da 'time_t' a 'int'. Possibile perdita di dati.
   Generazione codice in corso...
-d:\gitreps\school\mastermindrem\mastermindrem\gamerule.cpp(100): warning C4715: 'gamerule::isgamefinished': non tutti i percorsi di controllo restituiscono un valore
-  10 of 23 functions (43.5%) were compiled, the rest were copied from previous compilation.
+  1 of 28 functions ( 3.6%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+    1 functions had inline decision re-evaluated but remain unchanged
   Generazione codice terminata
   mastermindrem.vcxproj -> D:\GItREps\School\mastermindrem\x64\Release\mastermindrem.exe

@@ -14,6 +14,7 @@ int main(int argc, char* argv[])
 		gamerules.setdebugmode(DEBUG_ISDEBUG_ON);
 	}
 	gamerules.debugcheck(1);
+	if (gamerules.menu() == -200) return 0;
 	gamerules.runtime();
 	printf("\n\n");
     return 0;

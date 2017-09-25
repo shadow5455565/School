@@ -46,7 +46,9 @@
 */
 #define DEBUG_ISDEBUG_ON 3
 #define DEBUG_ISDEBUG_OFF 4
-#define MAX_TENTATIVI 10
+#define EASY_TENTATIVI 50
+#define MEDIUM_TENTATIVI 25
+#define HARD_TENTATIVI 12
 #define HOWEND_WIN 1
 #define HOWEND_LOSE 2
 #define CONTINUE_GAME 0x00000011
@@ -57,8 +59,12 @@
 class gamerule
 {
 private:
-	int tentativi = MAX_TENTATIVI;
+	int tentativi;
 	int right_pos;
+	int ulocks[4];
+	int rlocks[4];
+	int uwlocks[4];
+	int histr[12];
 	int wrong_pos;
 	int gamefinish_count = 0;
 	char* error;
@@ -67,6 +73,7 @@ private:
 	int isdebug;
 	int gamestate;
 public:
+	void updHistory();
 	void clearcluevars();
 	int updscreen(int out_mode);
 	int seterrormex(const char* str);
@@ -81,6 +88,7 @@ public:
 	int setusernums();
 	int checkusernums();
 	void runtime();
+	int menu();
 	gamerule();
 	~gamerule();
 };
